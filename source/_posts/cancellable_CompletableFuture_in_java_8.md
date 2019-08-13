@@ -37,7 +37,7 @@ If `result` is not given, The `CompletableFuture.completeExceptionally()` for cu
 
 ## solution in java 8
 
-first we need to create a `CompletableFuture` named `promise` which always fails with `TimeoutException` after given timeout.
+First we need to create a `CompletableFuture` named `promise` which always fails with `TimeoutException` after given timeout.
 We can reuse the code implementation of `Delayer` and `Timeout` in java 9 to fail the created `promise`.
 
 The always-fail `CompletableFuture` can be implemented as:
@@ -168,4 +168,5 @@ public interface CancellableFuture {
 ```
 
 ## reference
+
 [Asynchronous Timeouts with CompletableFuture](https://dzone.com/articles/asynchronous-timeouts)
