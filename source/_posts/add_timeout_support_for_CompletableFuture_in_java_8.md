@@ -1,5 +1,5 @@
 ---
-title: cancellable CompletableFuture in java 8
+title: add timeout support for CompletableFuture in java 8
 date: 2019-08-13 14:42:50
 tags: java
 ---
@@ -8,7 +8,7 @@ tags: java
 
 `CompletableFuture` is a useful tool introduced since java 8.
 It provides many convenient methods for concurrency handling.
-Yet it did not support task cancelling in java 8 version.
+Yet it did not support timeout in java 8 version.
 
 Two new methods were added to `CompletableFuture` since java 9 to support timeout:
 
@@ -64,7 +64,7 @@ For `within()` method, it takes a `completableFuture` and returns a `Completable
 
 ```java
 @Test
-public void testCancellableFuture() {
+public void testTimeoutSupportFuture() {
   CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
     try {
       TimeUnit.MILLISECONDS.sleep(100);
@@ -74,16 +74,16 @@ public void testCancellableFuture() {
     return "this is a message";
   });
 
-  final CompletableFuture<String> cancellable1 = CancellableFuture.within(future, Duration.ofMillis(50));
-  final CompletableFuture<String> cancellable2 = CancellableFuture.within(future, Duration.ofMillis(200));
-  cancellable1.whenComplete((s, throwable) -> {
+  final CompletableFuture<String> future1 = TimeoutSupportFuture.within(future, Duration.ofMillis(50));
+  final CompletableFuture<String> future2 = TimeoutSupportFuture.within(future, Duration.ofMillis(200));
+  future1.whenComplete((s, throwable) -> {
     if (s != null) {
       log.info("s == {}", s);
     } else {
       log.info(throwable.getMessage());
     }
   });
-  cancellable2.whenComplete((s, throwable) -> {
+  future2.whenComplete((s, throwable) -> {
     if (s != null) {
       log.info("s == {}", s);
     } else {
@@ -101,7 +101,7 @@ output:
 
 
 
-## implementation for `CancellableFuture`
+## implementation for `TimeoutSupportFuture`
 
 
 ```java
@@ -110,14 +110,14 @@ import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.function.Function;
 
-public interface CancellableFuture {
+public interface TimeoutSupportFuture {
 
   static <T> CompletableFuture<T> within(CompletableFuture<T> completableFuture, Duration duration) {
     Objects.requireNonNull(completableFuture, "completableFuture is required");
     Objects.requireNonNull(duration, "duration is required");
-    final CompletableFuture<T> promise = new CompletableFuture<>();
-    Delayer.delay(new Timeout(promise), duration.toMillis(), TimeUnit.MILLISECONDS);
-    return completableFuture.applyToEither(promise, Function.identity());
+    final CompletableFuture<T> promiseFailed = new CompletableFuture<>();
+    Delayer.delay(new Timeout(promiseFailed), duration.toMillis(), TimeUnit.MILLISECONDS);
+    return completableFuture.applyToEither(promiseFailed, Function.identity());
   }
 
   /**
@@ -166,6 +166,32 @@ public interface CancellableFuture {
   }
 }
 ```
+
+## summary
+
+A `CompletableFuture` instance can have timeout support with the help of `CompletableFuture.applyToEither()`.
+But there is a significat difference between **timeout** and **cancel**.
+**timeout** means, A `CompletableFuture` instance will complete with `TimeoutException` if it does not complete its task within given time.
+**cancel** means, A `CompletableFuture` instance will cancel the task during its execution, and complete with `CancellationException` if it does not complete its task within given time.
+
+While `CompletableFuture` has a serius **design flaw** in its `cancel()` method:
+
+```java
+/**
+ * @param mayInterruptIfRunning – this value has no effect in this implementation because interrupts are not used to control processing
+ */
+public boolean cancel(boolean mayInterruptIfRunning)
+```
+This `cancel()` method only returns a flag and assign `CancellationException` to result, thats all.
+
+**It never really cancel any executing tasks!**
+**It never really cancel any executing tasks!**
+**It never really cancel any executing tasks!**
+
+So you are on your own to make sure that any task executed in `CompletableFuture` should be quited execution properly.
+If you have applied a task into `CompletableFuture` and its execution never ends, this task would be executed forever till JVM exists!
+Unless this is what you want, don't use `CompletableFuture` in this way.
+
 
 ## reference
 
