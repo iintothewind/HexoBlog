@@ -188,7 +188,7 @@ This `cancel()` method only returns a flag and assign `CancellationException` to
 **It never really cancels any executing tasks!**
 **It never really cancels any executing tasks!**
 
-So you are on your own to make sure that any task executed in `CompletableFuture` should be quited execution properly.
+So you are on your own to make sure that any task executed in `CompletableFuture` should be quited properly.
 If you have applied a task into `CompletableFuture` and its execution never ends, this task would be executed forever till JVM exists!
 Unless this is what you want, don't use `CompletableFuture` in this way.
 
