@@ -184,9 +184,9 @@ public boolean cancel(boolean mayInterruptIfRunning)
 ```
 This `cancel()` method only returns a flag and assign `CancellationException` to result, thats all.
 
-**It never really cancel any executing tasks!**
-**It never really cancel any executing tasks!**
-**It never really cancel any executing tasks!**
+**It never really cancels any executing tasks!**
+**It never really cancels any executing tasks!**
+**It never really cancels any executing tasks!**
 
 So you are on your own to make sure that any task executed in `CompletableFuture` should be quited execution properly.
 If you have applied a task into `CompletableFuture` and its execution never ends, this task would be executed forever till JVM exists!
