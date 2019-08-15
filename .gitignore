@@ -86,7 +86,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
-
-.deploy_git/
 public/
+.deploy_git/
 db.json
