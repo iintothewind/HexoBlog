@@ -18,7 +18,8 @@ Collections.sort(playlist, Comparator.comparing(s -> s.getTitle())
 答案是: 不能, 会出现编译错误.
 JVM会抱怨不知道s是什么类型, p1是什么类型.
 
-出现这个错误的原因, 是Java语言在类型推断上还是非常弱导致的, 你以为写第一个lambda( s->s.getTitle())时, java会知道遍历的对象是playlist里面的元素的类型, 但其实不是, 它并不知道
+出现这个错误的原因是因为Java语言在类型推断上还是非常弱导致的。
+你以为写第一个lambda( s->s.getTitle())时, java会知道遍历的对象是playlist里面的元素的类型, 其实不是, 它并不知道
 
 
 ## the solutions
