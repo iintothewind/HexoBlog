@@ -14,18 +14,27 @@ Collections.sort(playlist, Comparator.comparing(s -> s.getTitle())
 );
 ```
 
-意图很简单, 给一个list按照三个不同的属性排序, 但是能编译通过吗?
-答案是: 不能, 会出现编译错误.
-JVM会抱怨不知道s是什么类型, p1是什么类型.
+What we are trying to do is simple: sort the `playlist` order by three different properties.
+Can this code snippet pass the compilation check?
+The answer is: No, there would be some compilation error.
 
-出现这个错误的原因是因为Java语言在类型推断上还是非常弱导致的。
-你以为写第一个lambda( s->s.getTitle())时, java会知道遍历的对象是playlist里面的元素的类型, 其实不是, 它并不知道
+```
+Error:(43, 59) java: cannot find symbol
+  symbol:   method getTitle()
+  location: variable s of type java.lang.Object
+```
+
+But why?
+
+The reason for this compilation error is weak type inference for Java lanaguage.
+It is expected that JVM knows the type of the elements in `playlist` when it is reading the first lambda `s->s.getTitle()`.
+But actually, JVM is not able to figure it out.
 
 
 ## the solutions
-有三种方法来解决这个问题:
+There are three approaches to solve this problem.
 
-### 用Java8的静态lambda表达式:
+### use static lambda expression
 
 ```java
 Collections.sort(playlist, Comparator.comparing(Song::getTitle)
@@ -34,7 +43,7 @@ Collections.sort(playlist, Comparator.comparing(Song::getTitle)
 );
 ```
 
-### 用临时变量显式调用
+### use explicitly defined lambda with a temorary variable
 
 ```java
 Comparator<Song> byName = (s1, s2) -> s1.getArtist().compareTo(s2.getArtist());
@@ -43,7 +52,7 @@ Collections.sort(playlist, byName.thenComparing(byDuration));
 ```
 
 
-### 在comparing chain开始的时候加入泛型参数的显式声明
+### add explicity type parameter before the Comparator.comparing() is called
 
 ````java
 Collections.sort(playlist, Comparator.<Song, String>comparing((s) -> s.getTitle())
