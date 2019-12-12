@@ -18,7 +18,7 @@ What we are trying to do is simple: sort the `playlist` order by three different
 Can this code snippet pass the compilation check?
 The answer is: No, there would be some compilation error.
 
-```
+```java
 Error:(43, 59) java: cannot find symbol
   symbol:   method getTitle()
   location: variable s of type java.lang.Object
@@ -26,7 +26,7 @@ Error:(43, 59) java: cannot find symbol
 
 But why?
 
-The reason for this compilation error is weak type inference for Java lanaguage.
+The reason for this compilation error is that the type inference for Java lanaguage is weak in this case.
 It is expected that JVM knows the type of the elements in `playlist` when it is reading the first lambda `s->s.getTitle()`.
 But actually, JVM is not able to figure it out.
 
@@ -54,7 +54,7 @@ Collections.sort(playlist, byName.thenComparing(byDuration));
 
 ### add explicity type parameter before the Comparator.comparing() is called
 
-````java
+```java
 Collections.sort(playlist, Comparator.<Song, String>comparing((s) -> s.getTitle())
               .thenComparing(p1 -> p1.getDuration())
               .thenComparing(p1 -> p1.getArtist())
