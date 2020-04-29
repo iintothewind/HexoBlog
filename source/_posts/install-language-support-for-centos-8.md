@@ -83,6 +83,7 @@ If you choose `langpacks-zh_CN` to install, then just use:
 
 ```
 sudo dnf install langpacks-zh_CN
+sudo dnf install glibc-langpacks-zh
 ```
 
 Then chinese language support is installed.
