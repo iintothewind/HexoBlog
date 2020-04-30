@@ -73,6 +73,13 @@ echo ${var:0-7}
 
 注：（左边的第一个字符是用 0 表示，右边的第一个字符用 0-1 表示）
 
+## 使用`cut`
+
+```bash
+echo $var | cut -nb 1-7 # http://
+echo $var | cut -nc -7  # http://
+echo $var | cut -nc 8-  # www.aaa.com
+```
 
 ## references
 [Shell脚本8种字符串截取方法总结](https://www.jb51.net/article/56563.htm)
