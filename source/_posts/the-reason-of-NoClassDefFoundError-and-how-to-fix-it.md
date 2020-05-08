@@ -129,6 +129,6 @@ And let `getEntry()` handle the state when `entries` is empty.
 
 - Getting `NoClassDefFoundError` does NOT mean that you class is missing (in that case you'd get a `ClassNotFoundException`). `NoClassDefFoundError` means class loader ran into an error while reading the class definition when trying to read the class.
 
-- In this above case, you can reproduce the same error by invode the same method more than one time. (catch the first `ExceptionInInitializerError` to avoid code breaks the first time).
+- In this above case, you can reproduce the same error by invoke the issue method more than one time. (catch the first `ExceptionInInitializerError` to avoid code breaks at the first time).
 
-- Avoid throw exceptions or errors in static block when you try to use it.
+- Avoid throwing exception or error in static block when you try to use it.
