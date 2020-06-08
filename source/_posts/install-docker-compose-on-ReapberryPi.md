@@ -8,6 +8,8 @@ Arm Arch based docker-compose is not officially provided.
 To install it, we should use:
 
 ```bash
+sudo apt install python3 python3-dev python3-pip python3-setuptools python3-wheel
+sudo apt install libffi-dev
 pip3 install --user docker-compose
 ```
 
