@@ -17,5 +17,8 @@
     "hexo-renderer-stylus": "^2.0.1",
     "hexo-server": "^2.0.0",
     "hexo-theme-next": "^8.2.0"
+  },
+  "devDependencies": {
+    "prismjs": ">=1.21.0"
   }
 }
