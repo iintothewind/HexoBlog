@@ -14,6 +14,12 @@ Please remind me to delete them if you are the author and you feel it is a viola
 
 ```bash
 
+# last parameter
+$_
+
+# word replace
+^before^after
+
 # check alias
 type -a ll
 
