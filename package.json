@@ -19,6 +19,7 @@
     "hexo-theme-next": "^8.2.0"
   },
   "devDependencies": {
+    "marked": ">=2.0.0",
     "prismjs": ">=1.21.0"
   }
 }
