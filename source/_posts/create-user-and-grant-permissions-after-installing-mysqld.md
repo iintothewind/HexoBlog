@@ -26,8 +26,22 @@ UPDATE mysql.user SET authentication_string = PASSWORD('admin'), password_expire
 flush privileges;
 
 -- 创建其他用户并赋予权限
-create user 'powerdata'@'%' identified by 'admin';
-grant all privileges on *.* to powerdata@'%' identified by 'Qwer!234';
+create user 'test'@'%' identified by 'admin';
+GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION;
 flush privileges;
+
+```
+
+有时候会遇到如下报错:
+
+```
+[Err] 1055 - Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column 'information_schema.PROFILING.SEQ' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+```
+
+use follow sql:
+
+```sql
+
+select version(), @@sql_mode;SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 ```
