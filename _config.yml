@@ -78,4 +78,5 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/iintothewind/iintothewind.github.io
+  #repo: https://github.com/iintothewind/iintothewind.github.io
+  repo: git@github.com:iintothewind/iintothewind.github.io.git
