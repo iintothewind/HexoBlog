@@ -9,8 +9,10 @@ tags: [linux,centos7]
 sudo yum remove mariadb-libs
 
 sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+sudo dnf config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
-sudo yum install docker-ce docker-cli
+sudo yum install docker-ce docker-ce-cli
+sudo dnf install docker-ce docker-ce-cli
 
 sudo vim /etc/docker/daemon.json
 ```
