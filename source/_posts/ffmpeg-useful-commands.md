@@ -4,6 +4,11 @@ date: 2021-10-29 14:06:44
 tags: [ffmpeg]
 ---
 
+mp3 to ogg
+```
+ffmpeg -i input.mp3 -acodec libopus -b:a 64k -compression_level 10 -application voip output.ogg
+```
+
 ```
 ffmpeg -i Q4.V1.mkv -vf scale=480:272 got_s4_01.mp4 -hide_banner
 ffmpeg -i concat:"01.mkv|02.mkv|03.mkv" -vf scale=480:272 got_s4_08.mp4 -hide_banner
