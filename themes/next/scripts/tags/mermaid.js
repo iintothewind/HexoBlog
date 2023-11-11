@@ -7,7 +7,7 @@
 const { escapeHTML } = require('hexo-util');
 
 module.exports = function(args, content) {
-  return `<pre class="mermaid" style="text-align: center;">
+  return `<pre class="mermaid">
 ${args.join(' ')}
 ${escapeHTML(content)}
 </pre>`;

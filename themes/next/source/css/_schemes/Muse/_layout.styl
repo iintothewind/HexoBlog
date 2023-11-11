@@ -1,5 +1,10 @@
+header.header {
+  main-container();
+}
+
 .main-inner {
   main-container();
+  padding-bottom: $content-padding-bottom;
 
   +mobile() {
     padding-left: 20px;
@@ -7,8 +12,12 @@
   }
 }
 
-.header-inner, .main-inner, .footer-inner {
+// Page - Container
+// --------------------------------------------------
+.post-block:first-of-type {
+  padding-top: $posts-first-padding;
+
   +mobile() {
-    width: auto;
+    padding-top: $posts-first-padding-mobile;
   }
 }

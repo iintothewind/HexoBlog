@@ -4,29 +4,23 @@
 
 'use strict';
 
-module.exports = ctx => function(args, content) {
+module.exports = ctx => function(args, content = '') {
   const tabBlock = /<!--\s*tab (.*?)\s*-->\n([\w\W\s\S]*?)<!--\s*endtab\s*-->/g;
 
   args = args.join(' ').split(',');
   const tabName = args[0];
   const tabActive = Number(args[1]) || 0;
 
-  const matches = [];
-  let match;
   let tabId = 0;
   let tabNav = '';
   let tabContent = '';
 
   if (!tabName) ctx.log.warn('Tabs block must have unique name!');
+  const matches = content.matchAll(tabBlock);
 
-  while ((match = tabBlock.exec(content)) !== null) {
-    matches.push(match[1]);
-    matches.push(match[2]);
-  }
-
-  for (let i = 0; i < matches.length; i += 2) {
-    let [caption = '', icon = ''] = matches[i].split('@');
-    let postContent = matches[i + 1];
+  for (const match of matches) {
+    let [caption = '', icon = ''] = match[1].split('@');
+    let postContent = match[2];
 
     postContent = ctx.render.renderSync({ text: postContent, engine: 'markdown' }).trim();
 
